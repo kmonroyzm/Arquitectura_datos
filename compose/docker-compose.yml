@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    env_file: ../.env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    env_file: ../.env
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_MGMT_PORT}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    ports:
+      - "${PROM_PORT}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    depends_on:
+      - prometheus
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Viewer"
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+  etl_worker:
+    build:
+      context: ../etl
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    env_file: ../.env
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+      RABBIT_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672/"
+      ENABLE_SCORING: "${ENABLE_SCORING}"
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+  rabbitmq_data:
+  grafana_data:
