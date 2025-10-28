@@ -13,3 +13,16 @@ Para ejecutar el entorno en una máquina local con Docker instalado:
 cp .env.example .env
 bash scripts/bootstrap.sh
 
+Servicios disponibles:
+- **Grafana:** http://localhost:3000  
+- **Prometheus:** http://localhost:9090  
+- **RabbitMQ Management:** http://localhost:15672  
+- **PostgreSQL:** localhost:5432  
+  - Usuario: `app`  
+  - Contraseña: `app_password`  
+  - Base de datos: `payments`
+
+---
+
+## 2. Estructura del proyecto
+
