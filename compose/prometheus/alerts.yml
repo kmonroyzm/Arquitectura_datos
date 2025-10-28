@@ -1,0 +1,42 @@
+groups:
+- name: baselineplus-alerts
+  rules:
+  - alert: WorkerDown
+    expr: up{job="worker"} == 0
+    for: 2m
+    labels: {severity: critical}
+    annotations:
+      summary: "ETL Worker caído"
+      description: "El job 'worker' no reporta desde hace 2 minutos."
+
+  - alert: HighErrorRate
+    expr: (rate(worker_messages_failed_total[5m])) / (rate(worker_messages_processed_total[5m]) + 1e-9) > 0.05
+    for: 5m
+    labels: {severity: warning}
+    annotations:
+      summary: "Tasa de error alta en worker"
+      description: "Error rate > 5% durante 5m."
+
+  - alert: RabbitLagHigh
+    expr: rabbitmq_queue_messages_ready{queue="etl"} > 1000
+    for: 5m
+    labels: {severity: warning}
+    annotations:
+      summary: "Lag alto en cola etl"
+      description: "Más de 1000 mensajes listos sin consumir por 5m."
+
+  - alert: PostgresHighConnections
+    expr: pg_stat_activity_count > 120
+    for: 10m
+    labels: {severity: info}
+    annotations:
+      summary: "Conexiones altas en Postgres"
+      description: "pg_stat_activity_count > 120 por 10m."
+
+  - alert: DataQualityFailed
+    expr: pg_stat_user_tables_dq_fails_summary > 0
+    for: 5m
+    labels: {severity: warning}
+    annotations:
+      summary: "Fallos de calidad de datos"
+      description: "Se detectaron fallos en las reglas de DQ en la última hora."
