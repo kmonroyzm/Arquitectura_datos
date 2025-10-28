@@ -61,3 +61,11 @@ SELECT * FROM marts.alumnos_en_riesgo LIMIT 10;
 - **Integridad:** constraints, índices, particiones, auditoría y control de calidad  
 - **Escalabilidad:** diseño modular de esquemas (raw → stg → core → marts)
 
+
+---
+
+## 6. Objetivo
+
+Demostrar el diseño e implementación de una arquitectura de datos robusta y auditable, con componentes de ingesta, transformación, almacenamiento, monitoreo y gobierno de datos.  
+El proyecto busca reflejar buenas prácticas de ingeniería de datos aplicadas a un caso académico reproducible en un entorno Docker.
+
