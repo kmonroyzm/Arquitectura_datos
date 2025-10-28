@@ -36,3 +36,16 @@ Servicios disponibles:
 4. **Agregación:** vistas y materialized views en `marts.*` calculan KPIs académicos.  
 5. **Monitoreo:** Prometheus recolecta métricas del ETL y RabbitMQ; Grafana visualiza paneles.  
 6. **Calidad de datos:** reglas de DQ registran inconsistencias en `core.dq_results`.
+
+---
+
+## 4. Consultas de validación
+
+Ejemplos de consultas SQL para verificar la carga de datos y los KPIs generados por los marts:
+
+```sql
+SELECT COUNT(*) FROM academico.alumnos;
+SELECT * FROM marts.kpi_materia LIMIT 10;
+SELECT * FROM marts.ranking_maestros LIMIT 10;
+SELECT * FROM marts.alumnos_en_riesgo LIMIT 10;
+
