@@ -26,3 +26,13 @@ Servicios disponibles:
 
 ## 2. Estructura del proyecto
 
+---
+
+## 3. Flujo de procesamiento
+
+1. **Ingesta:** mensajes JSON publicados en RabbitMQ (`alumno`, `inscripcion`, `calificacion`).  
+2. **Validación:** `worker.py` valida el contenido con Pydantic y lo inserta en tablas `stg.*`.  
+3. **Transformación:** funciones SQL (`merge_*`) consolidan los datos en el esquema `academico`.  
+4. **Agregación:** vistas y materialized views en `marts.*` calculan KPIs académicos.  
+5. **Monitoreo:** Prometheus recolecta métricas del ETL y RabbitMQ; Grafana visualiza paneles.  
+6. **Calidad de datos:** reglas de DQ registran inconsistencias en `core.dq_results`.
