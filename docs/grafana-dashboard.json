@@ -1,0 +1,22 @@
+{
+  "title": "Dashboard Académico - Prometheus/Grafana",
+  "description": "Vista de métricas ETL, RabbitMQ y PostgreSQL",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Worker Up",
+      "targets": [{ "expr": "up{job=\"worker\"}" }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Mensajes procesados/s",
+      "targets": [{ "expr": "rate(worker_messages_processed_total[1m])" }]
+    },
+    {
+      "type": "timeseries",
+      "title": "Errores/s",
+      "targets": [{ "expr": "rate(worker_messages_failed_total[1m])" }]
+    }
+  ],
+  "schemaVersion": 39
+}
