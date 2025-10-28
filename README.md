@@ -12,6 +12,7 @@ Para ejecutar el entorno en una máquina local con Docker instalado:
 ```bash
 cp .env.example .env
 bash scripts/bootstrap.sh
+```
 
 Servicios disponibles:
 - **Grafana:** http://localhost:3000  
@@ -21,8 +22,3 @@ Servicios disponibles:
   - Usuario: `app`  
   - Contraseña: `app_password`  
   - Base de datos: `payments`
-
----
-
-## 2. Estructura del proyecto
-
