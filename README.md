@@ -69,3 +69,20 @@ SELECT * FROM marts.alumnos_en_riesgo LIMIT 10;
 Demostrar el diseño e implementación de una arquitectura de datos robusta y auditable, con componentes de ingesta, transformación, almacenamiento, monitoreo y gobierno de datos.  
 El proyecto busca reflejar buenas prácticas de ingeniería de datos aplicadas a un caso académico reproducible en un entorno Docker.
 
+---
+
+## 7. Extensión Machine Learning (opcional)
+
+Como complemento a la arquitectura de datos, se incluye un módulo en la carpeta `ml/` que demuestra cómo utilizar los datos transformados (`marts.*`) para un flujo básico de aprendizaje automático.
+
+El archivo `ml/model_train.py` implementa un ejemplo con **Random Forest Classifier** para identificar alumnos en riesgo académico a partir de su promedio histórico.
+
+### Flujo general:
+1. Conexión a la base de datos PostgreSQL.
+2. Extracción de datos agregados desde el esquema `marts`.
+3. Limpieza y preparación del dataset con `pandas`.
+4. Entrenamiento y validación de un modelo con `scikit-learn`.
+5. Generación de un reporte de desempeño con métricas de clasificación.
+
+Este módulo ilustra la continuidad natural entre la **arquitectura de datos** y la **aplicación de modelos de machine learning** dentro del mismo entorno.
+
