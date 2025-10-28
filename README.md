@@ -49,3 +49,15 @@ SELECT * FROM marts.kpi_materia LIMIT 10;
 SELECT * FROM marts.ranking_maestros LIMIT 10;
 SELECT * FROM marts.alumnos_en_riesgo LIMIT 10;
 
+---
+
+## 5. Consideraciones técnicas
+
+- **Lenguajes:** SQL, Python 3.12  
+- **Orquestación:** Docker Compose  
+- **Mensajería:** RabbitMQ 3.13  
+- **Base de datos:** PostgreSQL 16  
+- **Observabilidad:** Prometheus + Grafana  
+- **Integridad:** constraints, índices, particiones, auditoría y control de calidad  
+- **Escalabilidad:** diseño modular de esquemas (raw → stg → core → marts)
+
