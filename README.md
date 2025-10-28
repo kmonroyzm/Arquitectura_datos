@@ -22,3 +22,7 @@ Servicios disponibles:
   - Usuario: `app`  
   - Contraseña: `app_password`  
   - Base de datos: `payments`
+---
+
+## 2. Estructura del proyecto
+
